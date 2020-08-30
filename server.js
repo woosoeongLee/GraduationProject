@@ -1,17 +1,22 @@
-var http = require("http");
+var http = require('http');
+var fs = require('fs');
+var url = require('url');
 
-http.createServer(function(request, response) {
-    /*
-    HTTP 헤더 전송
-    HTTP status : 200 : OK
-    Content Type : text/plain
-    */
-   response.writeHead(200, {'Content-Type' : 'text/plain'});
+http.createServer(function (request, response) {
+    var pathname = "/html/upload_to_ipfs.html";
 
-   /*
-    Response Body를 "Hello world"로 설정
-   */
-    response.end("Hello World!");
+    console.log("Request for " + pathname + " received.");
+
+    fs.readFile(pathname.substr(1), function (err, data) {
+        if (err) {
+            console.log(err);
+            response.writeHead(404, {'Content-Type': 'text/html'});
+        } else {
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(data.toString());
+        }
+        response.end();
+    });
 }).listen(8081);
 
 console.log("Server running at http://127.0.0.1:8081");
