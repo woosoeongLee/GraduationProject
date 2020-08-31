@@ -2,8 +2,6 @@
 2. 서버와 통신을 위한 axios 추가
 3. cors 해결위해 cors 설치
 
-실행방법
+참고블로그
 
-cd gp
-
-npm start
+https://hello-bryan.tistory.com/122
