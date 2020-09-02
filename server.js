@@ -23,8 +23,6 @@ const cors = require('cors');
 
 // console.log(`Server running at http://127.0.0.1:${port}`);
 
-
-
 const express=require('express');
 const bodyParser = require('body-parser');
 const app=express();

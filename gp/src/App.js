@@ -38,7 +38,6 @@ function App() {
 
   //db 연동 테스트 코드
   
-  
   return (
     <div>
       <LoginButton onClick={onClickLogin}>
