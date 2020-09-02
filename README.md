@@ -11,8 +11,8 @@ https://hello-bryan.tistory.com/122
 
 실행방법 
 
+npm install
 cd gp
-
 npm start
 
 ---
