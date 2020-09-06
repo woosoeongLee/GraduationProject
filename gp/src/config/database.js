@@ -16,10 +16,8 @@ module.exports=function () {
             con.connect((err)=>{
                 if(err)
                     console.error('mysql connection error : '+err);
-                    // return 'mysql connection error';
                 else
                     console.info('mysql is connected successfully');
-                    // return 'mysql is connected successfully';
             })
         }
     }
