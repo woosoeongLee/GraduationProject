@@ -95,7 +95,6 @@ function App() {
       })
   };
   
-  
   return (
     <Wrapper>
       <LoginButton onClick={onClickLogin}>
