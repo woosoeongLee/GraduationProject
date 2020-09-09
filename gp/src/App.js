@@ -2,7 +2,17 @@ import React,{useState} from 'react';
 import styled from "styled-components"
 import axios from "axios";
 import web3 from 'web3';
+const IPFS=require('ipfs-mini');
+const ipfs=new IPFS({host: 'ipfs.infura.io', port:'5001', protocol: 'http'});
+  
+  // const fs=require('fs');
+  // const addFile= async(fileName,filePath)=>{
+  //   const file= fs.readFileSync(filePath);
+  //   const fileAdded=await ipfs.add({path:fileName,content:file});
+  //   const fileHash=fileAdded[0].hash;
 
+  //   return fileHash;
+  // }
 function App() {
   
   //로그인코드
@@ -62,10 +72,21 @@ function App() {
     previewImage=<img src={previewURL}></img>
   }
   
-  const SubmitMusicInformation=(e)=>{
+  const SubmitMusicInformation=async(e)=>{
     e.preventDefault();
-    console.log(musicInformation);
-    //post 보내야함
+    //json에 담긴정보 출력
+    // console.log(musicInformation);
+    
+    //(ipfs 와 클라이언트 직접통신하는 코드)
+    const file=musicInformation.song;
+    // const fileName=musicInformation.singer+ ' - ' +musicInformation.songName;
+    // console.log(file, fileName);
+
+    // const fileAdded=await ipfs.add(file);
+    // console.log(fileAdded);
+    ipfs.add(file).then(console.log).catch(console.log);
+
+    //post 보내야함 (db로)
   };
   
 
