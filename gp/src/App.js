@@ -2,19 +2,18 @@ import React,{useState} from 'react';
 import styled from "styled-components"
 import axios from "axios";
 import web3 from 'web3';
-const IPFS=require('ipfs-mini');
-const ipfs=new IPFS({host: 'ipfs.infura.io', port:'5001', protocol: 'http'});
-  
-  // const fs=require('fs');
-  // const addFile= async(fileName,filePath)=>{
-  //   const file= fs.readFileSync(filePath);
-  //   const fileAdded=await ipfs.add({path:fileName,content:file});
-  //   const fileHash=fileAdded[0].hash;
+import ipfsClient from 'ipfs-http-client';
+const IpfsHttpClient=require('ipfs-http-client');
+const { globSource } = IpfsHttpClient
+const ipfs = IpfsHttpClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
+const BufferList = require('bl/BufferList')
 
-  //   return fileHash;
-  // }
-function App() {
-  
+// const addFile={
+//   content:{Over_the_Horizon.mp3
+// }
+
+
+function App() {  
   //로그인코드
   const [account,SetAccount]=useState(null);
   const onClickLogin=()=>{
@@ -32,7 +31,7 @@ function App() {
     songName:'노래제목',
     upLoaderAddress:'판매자주소',
     albumCover:'',
-    song:''
+    song:null
 
   });
   const UpdateSingerInformation=(e)=>{
@@ -72,19 +71,28 @@ function App() {
     previewImage=<img src={previewURL}></img>
   }
   
-  const SubmitMusicInformation=async(e)=>{
+  //IPFS 업로드 코드
+  const SubmitMusicInformation=(e)=>{
+    console.log(musicInformation.song);
     e.preventDefault();
-    //json에 담긴정보 출력
-    // console.log(musicInformation);
-    
-    //(ipfs 와 클라이언트 직접통신하는 코드)
-    const file=musicInformation.song;
-    // const fileName=musicInformation.singer+ ' - ' +musicInformation.songName;
-    // console.log(file, fileName);
 
-    // const fileAdded=await ipfs.add(file);
-    // console.log(fileAdded);
-    ipfs.add(file).then(console.log).catch(console.log);
+    const add = async () => {
+      const retAdd = await ipfs.add(musicInformation.song);
+      // const retAdd = await ipfs.add(globSource('./Over_the_Horizon.mp3'));
+      console.log(retAdd)
+      const get = async () => {
+          for await (const file of ipfs.get(retAdd.cid)) {
+  
+              const content = new BufferList();
+              for await (const chunk of file.content) {
+                  content.append(chunk)
+              }
+              console.log(content);
+          }
+      }
+      get();
+    }
+    add();
 
     //post 보내야함 (db로)
   };
