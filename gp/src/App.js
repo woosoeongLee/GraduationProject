@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import styled from "styled-components"
 import axios from "axios";
 import web3 from 'web3';
-import ipfsClient from 'ipfs-http-client';
+
 const IpfsHttpClient = require('ipfs-http-client');
 const { globSource } = IpfsHttpClient
 const ipfs = IpfsHttpClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 const BufferList = require('bl/BufferList')
-
-// const addFile={
-//   content:{Over_the_Horizon.mp3
-// }
-
 
 function App() {
   //로그인코드
@@ -34,11 +29,13 @@ function App() {
     song: null
 
   });
+
   const UpdateSingerInformation = (e) => {
     let newObj = { ...musicInformation };
     newObj.singer = e.target.value;
     SetMusicInformation(newObj);
   };
+
   const UpdateSongInformation = (e) => {
     let newObj = { ...musicInformation };
     newObj.songName = e.target.value;
@@ -65,6 +62,7 @@ function App() {
     newObj.song = file;
     SetMusicInformation(newObj);
   }
+
   //미리보기 이미지 보여주는 코드
   let previewImage = null;
   if (musicInformation.albumCover !== '') {
@@ -93,14 +91,12 @@ function App() {
       get();
     }
     add();
-
-    //post 보내야함 (db로)
   };
 
 
   async function getAccount() {
     const accounts = await window.ethereum.enable();
-    SetAccount(accounts[0]); //acount=accounts[0];
+    SetAccount(accounts[0]);
 
     //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
     let newObj = { ...musicInformation };
