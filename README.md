@@ -1,5 +1,7 @@
-참고블로그
+web3.js document
+https://web3js.readthedocs.io/en/v1.2.7/web3-eth.html#transactionconfirmationblocks
 
+참고블로그
 https://hello-bryan.tistory.com/122
 
 실행방법 
