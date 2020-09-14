@@ -10,9 +10,10 @@ const BufferList = require('bl/BufferList')
 
 function App() {
   //로그인코드
-  const [account, SetAccount] = useState(null);
-  const onClickLogin = () => {
-    if (typeof web3 !== 'undefined') {
+  const [account,SetAccount]=useState(null);
+  
+  const onClickLogin=()=>{
+    if(typeof web3 !=='undefined'){
       getAccount();
     }
     else {
@@ -76,7 +77,6 @@ function App() {
 
     const add = async () => {
       const retAdd = await ipfs.add(musicInformation.song);
-      // const retAdd = await ipfs.add(globSource('./Over_the_Horizon.mp3'));
       console.log(retAdd)
       const get = async () => {
         for await (const file of ipfs.get(retAdd.cid)) {
