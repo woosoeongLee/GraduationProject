@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
 import axios from "axios";
-import web3 from 'web3';
+// import web3 from 'web3';
 const IpfsHttpClient = require('ipfs-http-client');
 const { globSource } = IpfsHttpClient
 const ipfs = IpfsHttpClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
@@ -20,6 +20,7 @@ function App() {
     }
   };
 
+  console.log(account);
   async function getAccount() {
     const accounts = await window.ethereum.enable();
     SetAccount(accounts[0]);
@@ -119,11 +120,12 @@ function App() {
   };
 
   const onClickWeb3 =(e)=>{
-    if(typeof web3 !== 'undefined'){
-      web3= new Web3(web3.currentProvider);
-    }else{
-      web3=new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-    }
+    let web3=new Web3(Web3.givenProvider||"ws://localhost:8545");
+    // if(typeof web3 !== 'undefined'){
+    //   web3= new Web3(web3.currentProvider);
+    // }else{
+    //   web3=new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    // }
 
     var ContractAbi=[
       {
@@ -193,14 +195,9 @@ function App() {
     ];
     var ContractAddr="0x16fE26036f9D7780A52DB64678C269a4fe858a22";
     var Contract = new web3.eth.Contract(ContractAbi,ContractAddr);
-    
-    // Contract.methods.setInfo("Testing", 26).send({ from: '0x7B74872e4f2399EFF2E39C0A2BAC81b71828678A' })
-    //         .then(function (receipt) {
-    //             // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-    //             console.log(receipt);
-    //         });
+    console.log(Contract);
 
-    Contract.methods.setInstructor("Test",26).send({from:'0x38dd5c64c24601e807289844a31b1bfc5f6d1150'})
+    Contract.methods.setInstructor("Test",26).send({from:account})
             .then(function(receipt){
               console.log(receipt);
             });
