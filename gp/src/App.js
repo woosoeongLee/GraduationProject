@@ -11,25 +11,25 @@ function App() {
   //로그인코드
   const [account,SetAccount]=useState(null);
   
-  // const onClickLogin=()=>{
-  //   if(typeof web3 !=='undefined'){
-  //     getAccount();
-  //   }
-  //   else {
-  //     window.location.href = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko';
-  //   }
-  // };
+  const onClickLogin=()=>{
+    if(typeof web3 !=='undefined'){
+      getAccount();
+    }
+    else {
+      window.location.href = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko';
+    }
+  };
 
-  // async function getAccount() {
-  //   const accounts = await window.ethereum.enable();
-  //   SetAccount(accounts[0]);
+  async function getAccount() {
+    const accounts = await window.ethereum.enable();
+    SetAccount(accounts[0]);
 
-  //   //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
-  //   let newObj = { ...musicInformation };
-  //   newObj.upLoaderAddress = accounts[0];
-  //   SetMusicInformation(newObj);
+    //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
+    let newObj = { ...musicInformation };
+    newObj.upLoaderAddress = accounts[0];
+    SetMusicInformation(newObj);
 
-  // }
+  }
 
   //업로드정보
   const [musicInformation, SetMusicInformation] = useState({
@@ -124,84 +124,94 @@ function App() {
     }else{
       web3=new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
-    console.log(web3);
-    // web3.eth.defaultAccount=account;
 
-    // let CoursetroContract=web3.eth.contract([
-    //   {
-    //     "constant": false,
-    //     "inputs": [
-    //       {
-    //         "name": "_fName",
-    //         "type": "string"
-    //       },
-    //       {
-    //         "name": "_age",
-    //         "type": "uint256"
-    //       }
-    //     ],
-    //     "name": "setInstructor",
-    //     "outputs": [],
-    //     "payable": false,
-    //     "stateMutability": "nonpayable",
-    //     "type": "function"
-    //   },
-    //   {
-    //     "constant": true,
-    //     "inputs": [],
-    //     "name": "age",
-    //     "outputs": [
-    //       {
-    //         "name": "",
-    //         "type": "uint256"
-    //       }
-    //     ],
-    //     "payable": false,
-    //     "stateMutability": "view",
-    //     "type": "function"
-    //   },
-    //   {
-    //     "constant": true,
-    //     "inputs": [],
-    //     "name": "getInstructor",
-    //     "outputs": [
-    //       {
-    //         "name": "",
-    //         "type": "string"
-    //       },
-    //       {
-    //         "name": "",
-    //         "type": "uint256"
-    //       }
-    //     ],
-    //     "payable": false,
-    //     "stateMutability": "view",
-    //     "type": "function"
-    //   },
-    //   {
-    //     "constant": true,
-    //     "inputs": [],
-    //     "name": "fName",
-    //     "outputs": [
-    //       {
-    //         "name": "",
-    //         "type": "string"
-    //       }
-    //     ],
-    //     "payable": false,
-    //     "stateMutability": "view",
-    //     "type": "function"
-    //   }
-    // ]);
+    var ContractAbi=[
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_fName",
+            "type": "string"
+          },
+          {
+            "name": "_age",
+            "type": "uint256"
+          }
+        ],
+        "name": "setInstructor",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "age",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getInstructor",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "fName",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ];
+    var ContractAddr="0x16fE26036f9D7780A52DB64678C269a4fe858a22";
+    var Contract = new web3.eth.Contract(ContractAbi,ContractAddr);
+    
+    // Contract.methods.setInfo("Testing", 26).send({ from: '0x7B74872e4f2399EFF2E39C0A2BAC81b71828678A' })
+    //         .then(function (receipt) {
+    //             // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+    //             console.log(receipt);
+    //         });
 
-    // let Coursetro=CoursetroContract.at('0xB8D67ac9DCB1B082d2e81a1507fDA8ae52977094');
-    // console.log(Coursetro);
+    Contract.methods.setInstructor("Test",26).send({from:'0x38dd5c64c24601e807289844a31b1bfc5f6d1150'})
+            .then(function(receipt){
+              console.log(receipt);
+            });
+
+    
   }
   return (
     <Wrapper>
-      {/* <LoginButton onClick={onClickLogin}>
+      <LoginButton onClick={onClickLogin}>
         Login
-      </LoginButton> */}
+      </LoginButton>
       <TestButton onClick={onClickTest}>
         Click!
       </TestButton>
