@@ -2,24 +2,34 @@ import React, { useState } from 'react';
 import styled from "styled-components"
 import axios from "axios";
 import web3 from 'web3';
-
 const IpfsHttpClient = require('ipfs-http-client');
 const { globSource } = IpfsHttpClient
 const ipfs = IpfsHttpClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 const BufferList = require('bl/BufferList')
-
+const Web3=require('web3');
 function App() {
   //로그인코드
   const [account,SetAccount]=useState(null);
   
-  const onClickLogin=()=>{
-    if(typeof web3 !=='undefined'){
-      getAccount();
-    }
-    else {
-      window.location.href = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko';
-    }
-  };
+  // const onClickLogin=()=>{
+  //   if(typeof web3 !=='undefined'){
+  //     getAccount();
+  //   }
+  //   else {
+  //     window.location.href = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko';
+  //   }
+  // };
+
+  // async function getAccount() {
+  //   const accounts = await window.ethereum.enable();
+  //   SetAccount(accounts[0]);
+
+  //   //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
+  //   let newObj = { ...musicInformation };
+  //   newObj.upLoaderAddress = accounts[0];
+  //   SetMusicInformation(newObj);
+
+  // }
 
   //업로드정보
   const [musicInformation, SetMusicInformation] = useState({
@@ -94,18 +104,6 @@ function App() {
   };
 
 
-  async function getAccount() {
-    const accounts = await window.ethereum.enable();
-    SetAccount(accounts[0]);
-
-    //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
-    let newObj = { ...musicInformation };
-    newObj.upLoaderAddress = accounts[0];
-    SetMusicInformation(newObj);
-
-  }
-
-
   //rest 서버와 통신을 위한 코드
   const [userName, SetUserName] = useState(null);
   const onClickTest = () => {
@@ -120,11 +118,90 @@ function App() {
       })
   };
 
+  const onClickWeb3 =(e)=>{
+    if(typeof web3 !== 'undefined'){
+      web3= new Web3(web3.currentProvider);
+    }else{
+      web3=new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    }
+    console.log(web3);
+    // web3.eth.defaultAccount=account;
+
+    // let CoursetroContract=web3.eth.contract([
+    //   {
+    //     "constant": false,
+    //     "inputs": [
+    //       {
+    //         "name": "_fName",
+    //         "type": "string"
+    //       },
+    //       {
+    //         "name": "_age",
+    //         "type": "uint256"
+    //       }
+    //     ],
+    //     "name": "setInstructor",
+    //     "outputs": [],
+    //     "payable": false,
+    //     "stateMutability": "nonpayable",
+    //     "type": "function"
+    //   },
+    //   {
+    //     "constant": true,
+    //     "inputs": [],
+    //     "name": "age",
+    //     "outputs": [
+    //       {
+    //         "name": "",
+    //         "type": "uint256"
+    //       }
+    //     ],
+    //     "payable": false,
+    //     "stateMutability": "view",
+    //     "type": "function"
+    //   },
+    //   {
+    //     "constant": true,
+    //     "inputs": [],
+    //     "name": "getInstructor",
+    //     "outputs": [
+    //       {
+    //         "name": "",
+    //         "type": "string"
+    //       },
+    //       {
+    //         "name": "",
+    //         "type": "uint256"
+    //       }
+    //     ],
+    //     "payable": false,
+    //     "stateMutability": "view",
+    //     "type": "function"
+    //   },
+    //   {
+    //     "constant": true,
+    //     "inputs": [],
+    //     "name": "fName",
+    //     "outputs": [
+    //       {
+    //         "name": "",
+    //         "type": "string"
+    //       }
+    //     ],
+    //     "payable": false,
+    //     "stateMutability": "view",
+    //     "type": "function"
+    //   }
+    // ]);
+
+    // let Coursetro=CoursetroContract.at('0xB8D67ac9DCB1B082d2e81a1507fDA8ae52977094');
+    // console.log(Coursetro);
+  }
   return (
     <Wrapper>
-      <LoginButton onClick={onClickLogin}>
+      {/* <LoginButton onClick={onClickLogin}>
         Login
-      </LoginButton>
+      </LoginButton> */}
       <TestButton onClick={onClickTest}>
         Click!
       </TestButton>
@@ -142,6 +219,9 @@ function App() {
         <span>음원: </span><Mp3Input type="file" accept="audio/*" onChange={UpdateMusicInformation}></Mp3Input>
         <SubmitButton type="submit" value="업로드" onClick={SubmitMusicInformation}></SubmitButton>
       </TestForm>
+      <Web3Button onClick={onClickWeb3}>
+        Web3테스트
+      </Web3Button>
       {previewImage}
     </Wrapper>
   );
@@ -174,12 +254,14 @@ const SubmitButton = styled.input`
 
 `
 
-
-
 const TestDiv = styled.div`
 
 `
 
 const LoginButton = styled.button`
+
+`
+
+const Web3Button=styled.button`
 
 `
