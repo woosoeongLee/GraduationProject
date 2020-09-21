@@ -201,7 +201,11 @@ function App() {
             .then(function(receipt){
               console.log(receipt);
             });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> JungHyeok
     
   }
   return (
