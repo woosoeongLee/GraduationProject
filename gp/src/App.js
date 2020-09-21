@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
 import axios from "axios";
-import web3 from 'web3';
-
+// import web3 from 'web3';
 const IpfsHttpClient = require('ipfs-http-client');
 const { globSource } = IpfsHttpClient
 const ipfs = IpfsHttpClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 const BufferList = require('bl/BufferList')
-
+const Web3=require('web3');
 function App() {
   //로그인코드
   const [account,SetAccount]=useState(null);
@@ -20,6 +19,18 @@ function App() {
       window.location.href = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko';
     }
   };
+
+  console.log(account);
+  async function getAccount() {
+    const accounts = await window.ethereum.enable();
+    SetAccount(accounts[0]);
+
+    //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
+    let newObj = { ...musicInformation };
+    newObj.upLoaderAddress = accounts[0];
+    SetMusicInformation(newObj);
+
+  }
 
   //업로드정보
   const [musicInformation, SetMusicInformation] = useState({
@@ -94,18 +105,6 @@ function App() {
   };
 
 
-  async function getAccount() {
-    const accounts = await window.ethereum.enable();
-    SetAccount(accounts[0]);
-
-    //판매자 주소 업로드 정보에 삽입, 나중에 리팩토링 필요할듯
-    let newObj = { ...musicInformation };
-    newObj.upLoaderAddress = accounts[0];
-    SetMusicInformation(newObj);
-
-  }
-
-
   //rest 서버와 통신을 위한 코드
   const [userName, SetUserName] = useState(null);
   const onClickTest = () => {
@@ -120,6 +119,91 @@ function App() {
       })
   };
 
+  const onClickWeb3 =(e)=>{
+    let web3=new Web3(Web3.givenProvider||"ws://localhost:8545");
+    // if(typeof web3 !== 'undefined'){
+    //   web3= new Web3(web3.currentProvider);
+    // }else{
+    //   web3=new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    // }
+
+    var ContractAbi=[
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_fName",
+            "type": "string"
+          },
+          {
+            "name": "_age",
+            "type": "uint256"
+          }
+        ],
+        "name": "setInstructor",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "age",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getInstructor",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "fName",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ];
+    var ContractAddr="0x16fE26036f9D7780A52DB64678C269a4fe858a22";
+    var Contract = new web3.eth.Contract(ContractAbi,ContractAddr);
+    console.log(Contract);
+
+    Contract.methods.setInstructor("Test",26).send({from:account})
+            .then(function(receipt){
+              console.log(receipt);
+            });
+    
+    
+  }
   return (
     <Wrapper>
       <LoginButton onClick={onClickLogin}>
@@ -142,6 +226,9 @@ function App() {
         <span>음원: </span><Mp3Input type="file" accept="audio/*" onChange={UpdateMusicInformation}></Mp3Input>
         <SubmitButton type="submit" value="업로드" onClick={SubmitMusicInformation}></SubmitButton>
       </TestForm>
+      <Web3Button onClick={onClickWeb3}>
+        Web3테스트
+      </Web3Button>
       {previewImage}
     </Wrapper>
   );
@@ -174,12 +261,14 @@ const SubmitButton = styled.input`
 
 `
 
-
-
 const TestDiv = styled.div`
 
 `
 
 const LoginButton = styled.button`
+
+`
+
+const Web3Button=styled.button`
 
 `
