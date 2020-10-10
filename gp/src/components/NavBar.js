@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import Link from 'react-router-dom';
+import Discover from '../pages/Discover'
 const NavBar=()=>{
     return(
         <Wrapper>
-            <NavFirstText>
+            <NavFirstText href="/Discover">
                 Discover
             </NavFirstText>
-            <NavSecondText>
+            <NavSecondText href="/">
                 홍익뮤직
             </NavSecondText>
         </Wrapper>
@@ -26,9 +27,14 @@ const Wrapper=styled.div`
     margin: 0 auto;
 `;
 
-const NavFirstText=styled.div`
-
+const NavFirstText=styled.a`
+    text-decoration : none;
+    color: black;
 `;
 
-const NavSecondText=styled.div`
+const NavSecondText=styled.a`
+    position:relative;
+    left:614px;
+    text-decoration : none;
+    color: black;
 `;
