@@ -1,27 +1,11 @@
 import React, { Component, useState } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Home, Seller, Buyer } from './pages';
-// import axios from "axios";
-// import web3 from 'web3';
-
-
-class App extends Component {
-  /*
-  //rest 서버와 통신을 위한 코드
-  const [userName, SetUserName] = useState(null);
-  const onClickTest = () => {
-    axios
-      .get('api')
-      .then(response => {
-        let jsonData = response.data;
-        SetUserName(jsonData.userName);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  };*/  
-  render() {
+  const App=()=>{
+  
     return (
+      <div>
+
       <Router>
         <div>
           <nav>
@@ -43,6 +27,7 @@ class App extends Component {
           <Route path='/seller' component={Seller} />
         </div>
       </Router>
+      </div>
         // <TestButton onClick={onClickTest}>
         //   Click!
         // </TestButton>
@@ -52,8 +37,8 @@ class App extends Component {
         // <Web3Button onClick={onClickWeb3}>
         //   Web3테스트
         // </Web3Button>
+        
     );
   }
-}
 
 export default App;

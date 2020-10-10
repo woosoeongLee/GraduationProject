@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
+import NavBar from '../components/NavBar'
+
 const Web3 = require('web3');
 
 const Home = () => {
@@ -9,9 +11,11 @@ const Home = () => {
 
     return (
         <div>
+            {/* <NavBar/> */}
             <h2>Home Page</h2>
             <LoginButton onClick={onClickLogin}>Login</LoginButton>
             <TestDiv>Your Ethereum address: {account}</TestDiv>
+            
         </div>
     )
 }
