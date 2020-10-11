@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
+import Seller from './Seller';
+import Buyer from './Buyer';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 const Web3 = require('web3');
 
 const Home = () => {
@@ -12,6 +15,24 @@ const Home = () => {
             <h2>Home Page</h2>
             <LoginButton onClick={onClickLogin}>Login</LoginButton>
             <TestDiv>Your Ethereum address: {account}</TestDiv>
+                <div>
+                    <nav>
+                <ul>
+                
+                <li>
+                    <Link to="/buyer">Buyer</Link>
+                </li>
+                <li>
+                    <Link to="/seller">Seller</Link>
+                </li>
+                </ul>
+                    </nav>
+
+            
+            <Route path='/buyer' component={Buyer} />
+            <Route path='/seller' component={Seller} />
+            </div>
+            
         </div>
     )
 }
