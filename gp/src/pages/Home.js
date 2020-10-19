@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Seller from './Seller';
 import Buyer from './Buyer';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import ShowSomeMusics from '../components/ShowSomeMusics';
 const Web3 = require('web3');
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
         <div>
             <h2>Home Page</h2>
             <LoginButton onClick={onClickLogin}>Login</LoginButton>
+            <ShowSomeMusics/>
             <TestDiv>Your Ethereum address: {account}</TestDiv>
                 <div>
                     <nav>
