@@ -3,32 +3,32 @@ import styled from "styled-components"
 
 const sampleData=[
     {
-        imageLocation:"../images/cat-3059075_1920.jpg",
-        singer:"이우성1",
-        song:"졸프1",
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+        singer:"LFTD MUSIC GROUP",
+        song:"Your Evil Boyfriend",
     },
     {
-        imageLocation:"../images/flower-4940636_1920.jpg",
-        singer:"문정혁1",
-        song:"졸프2",
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test2.jpeg",
+        singer:"tandrum",
+        song:"the beatles eleanor rigby",
     },
     {
-        imageLocation:"../images/orbs-4967554_1920.jpg",
-        singer:"김태중1",
-        song:"졸프3",
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test3.jpeg",
+        singer:"LFTD MUSIC GROUP",
+        song:"Low Depth - Ghost",
     },
     {
-        imageLocation:"../images/cat-3059075_1920.jpg",
-        singer:"이우성2",
-        song:"졸프4",
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test5.jpeg",
+        singer:"Boss-Up CRYPTO",
+        song:"Allahu Akbar",
     },
     {
-        imageLocation:"../images/flower-4940636_1920.jpg",
-        singer:"문정혁2",
-        song:"졸프5",
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test4.jpeg",
+        singer:"Kisii Spaceport",
+        song:"JJSNWLPRD",
     },
     {
-        imageLocation:"../images/orbs-4967554_1920.jpg",
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test5.jpeg",
         singer:"김태중2",
         song:"졸프6",
     },
@@ -62,14 +62,14 @@ const ShowSomeMusics=()=>{
             </TitleOfComponent>       
             <MusicInformations>
                 {
-                    sampleData.map((data,i)=>{
+                    sampleData.map((data)=>{
                         return(
                             <MusicInformation>
-                                <AlbumCover src="https://placeimg.com/640/480/any"></AlbumCover>
+                                <AlbumCover src={data.imageLocation}></AlbumCover>
                                 {/* <div>{data.imageLocation}</div> */}
                                 <Singer>{data.singer}</Singer>
                                 <Song>{data.song}</Song>
-                            </MusicInformation>
+                            </MusicInformation> 
                         );
                     })
                 }
@@ -82,43 +82,47 @@ const Wrapper=styled.div`
     width: 100%;
     margin: 0 auto;
     text-align: center;
+    margin-top:2rem;
     
 `;
 
 const TitleOfComponent=styled.div`
     font-size: 2rem;
-    margin-bottom:1rem;
+    
 `;
 
 const MusicInformations=styled.div`
     display:flex;
     flex-direction:row;
     flex-wrap:wrap; // flex 하면서 줄바꿈까지
-    margin-left:8rem;
-    margin-right:8rem;
+    margin-left:9rem;
+    margin-right:9rem;
     margin-bottom:5rem;
-    margin-top:5rem;
+    margin-top:3rem;
+    position:relative;
+    left:5rem;
 `;
 
 const AlbumCover=styled.img`
     max-height:11rem;
     max-width:11rem;
-    
+    border-radius:3rem;
     alt:"AlbumCover"
+
 `;
 
 const Singer=styled.div`
     color:#25375A;
-    font-size:1.3rem;
 `;
 
 const Song=styled.div`
     color: #B4C3D2;
-    font-size:1.2rem;
 `;
 
 const MusicInformation=styled.div`
     margin:2rem;
     min-width:10rem;
+    max-width:10rem;
+    
 `;
 

@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Link from 'react-router-dom';
 import Discover from '../pages/Discover'
 const NavBar=()=>{
+    const [account, SetAccount] = useState(null);
+    const onClickLogin = () => {getAccount();};
+    async function getAccount() {const accounts = await window.ethereum.enable();SetAccount(accounts[0]);};
     return(
         <Wrapper>
             <NavFirstText href="/Discover">
@@ -11,6 +14,7 @@ const NavBar=()=>{
             <NavSecondText href="/">
                 홍익뮤직
             </NavSecondText>
+            <LoginButton onClick={onClickLogin}>Login</LoginButton>
         </Wrapper>
     )
 }
@@ -34,7 +38,16 @@ const NavFirstText=styled.a`
 
 const NavSecondText=styled.a`
     position:relative;
-    left:614px;
+    left:40rem;
     text-decoration : none;
     color: black;
 `;
+
+const LoginButton = styled.button`
+    text-transform:uppercase;
+    background-color: #ffffff;
+    background-color: rgba( 255, 255, 255, 0.5 );
+    position:relative;
+    left:80rem;
+    border:none;
+`
