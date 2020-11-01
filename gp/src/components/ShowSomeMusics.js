@@ -1,60 +1,78 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
-
+import { BrowserRouter as Router, Route, Switch,Link,useHistory } from "react-router-dom";
 const sampleData=[
     {
+        id:1,
         imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
         singer:"LFTD MUSIC GROUP",
         song:"Your Evil Boyfriend",
     },
     {
+        id:2,
         imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test2.jpeg",
         singer:"tandrum",
         song:"the beatles eleanor rigby",
     },
     {
+        id:3,
         imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test3.jpeg",
         singer:"LFTD MUSIC GROUP",
         song:"Low Depth - Ghost",
     },
     {
+        id:4,
         imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test5.jpeg",
         singer:"Boss-Up CRYPTO",
         song:"Allahu Akbar",
     },
     {
+        id:5,
         imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test4.jpeg",
         singer:"Kisii Spaceport",
         song:"JJSNWLPRD",
     },
     {
+        id:6,
         imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test5.jpeg",
         singer:"김태중2",
         song:"졸프6",
     },
     {
-        imageLocation:"../images/cat-3059075_1920.jpg",
+        id:7,
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test5.jpeg",
         singer:"이우성3",
         song:"졸프7",
     },
     {
-        imageLocation:"../images/flower-4940636_1920.jpg",
+        id:8,
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test4.jpeg",
         singer:"문정혁3",
         song:"졸프8",
     },
     {
-        imageLocation:"/images/orbs-4967554_1920.jpg",
+        id:9,
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
         singer:"김태중3",
         song:"졸프9",
     },
     {
-        imageLocation:"https://www.example.com/images/dinosaur.jpg",
+        id:10,
+        imageLocation:"https://graduationproject.s3.ap-northeast-2.amazonaws.com/test3.jpeg",
         singer:"이우성4",
         song:"졸프10",
     },
 ];
 
 const ShowSomeMusics=()=>{
+    let history=useHistory();
+
+    const LinkHandle=(idx,data)=>{
+        history.push({
+            pathname:"/buyer/"+idx,
+            data:data
+        });
+    }
     return(
         <Wrapper>
             <TitleOfComponent>
@@ -62,11 +80,18 @@ const ShowSomeMusics=()=>{
             </TitleOfComponent>       
             <MusicInformations>
                 {
-                    sampleData.map((data)=>{
+                    sampleData.map((data,idx)=>{
                         return(
-                            <MusicInformation>
-                                <AlbumCover src={data.imageLocation}></AlbumCover>
-                                {/* <div>{data.imageLocation}</div> */}
+                            <MusicInformation key={idx}>
+                                <AlbumCover src={data.imageLocation} onClick={()=>LinkHandle(idx,data)}></AlbumCover>
+                                {/* <Link to={"/buyer/"+idx}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
+                                
+                                {/* <AlbumCover src={data.imageLocation} onClick={LinkHandle}></AlbumCover> */}
+                                {/* <Link to={
+                                    {
+                                        pathname:'/buyer/'+idx,
+                                        state:2
+                                    }}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
                                 <Singer>{data.singer}</Singer>
                                 <Song>{data.song}</Song>
                             </MusicInformation> 

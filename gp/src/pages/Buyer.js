@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
 
-const Buyer=()=>{
+const Buyer=(params)=>{
+    console.log(params);
+    // const {data}=this.props.location;
+    // console.log(data);
     return(
         <Wrapper>
             <BuyerBox>
-            <SingerPicture alt=""src="https://demos.creative-tim.com/material-kit/assets/img/faces/christian.jpg" />
+            <SingerPicture alt=""src={params.location.data.imageLocation} />
                 <SingerText>
                     <SingerName>
-                        The Very Famous Singer
+                        {/* The Very Famous Singer */}
+                        {params.location.data.singer}
                     </SingerName>
                     <SongName>
-                        Hongik Song
+                        {params.location.data.song}
                     </SongName>
                 </SingerText>                
                 
