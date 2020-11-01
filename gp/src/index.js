@@ -16,7 +16,10 @@ ReactDOM.render(
     <Switch>
       <Route exact path="/" component={Home}/>
       <Route exact path="/Seller" component={Seller}/>
-      <Route exact path="/Buyer" component={Buyer}/>
+      <Switch>
+        <Route exact path="/Buyer/:sondId" component={Buyer}/>
+        <Route exact path="/Buyer/" component={Buyer}/>
+      </Switch>
       <Route exact path="/Discover" component={Discover}/>
     </Switch>
 
