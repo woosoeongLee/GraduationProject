@@ -132,8 +132,8 @@ const AlbumCover=styled.img`
     max-height:11rem;
     max-width:11rem;
     border-radius:3rem;
-    alt:"AlbumCover"
-
+    alt:"AlbumCover";
+    cursor:pointer;
 `;
 
 const Singer=styled.div`

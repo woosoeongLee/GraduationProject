@@ -178,9 +178,6 @@ const Buyer = (params) => {
                 </SingerText>
 
                 <ImagesOfService>
-                    <ButtonOfListening>
-                        LISTENING
-                    </ButtonOfListening>
                     <ButtonOfBuying type="button" onClick={clickBuyMusic}>Buy</ButtonOfBuying>
                 </ImagesOfService>
 
