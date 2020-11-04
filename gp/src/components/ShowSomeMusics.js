@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import styled from "styled-components"
 import { BrowserRouter as Router, Route, Switch,Link,useHistory } from "react-router-dom";
+const mm = require('music-metadata-browser');
+
+const metaDataParse = async () => {
+    const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + "QmdpgrUrJYgyZg277YCfpdJdcN2uh7dnDhZDo5vEZAfDcW";
+    const metadata = await mm.fetchFromUrl(audioTrackUrl);
+    console.log(metadata);
+    console.log(metadata.common.picture['0'].data); // imageLocation에 대응
+    console.log(metadata.common.artist);            // singer에 대응
+    console.log(metadata.common.title);             // song에 대응
+};
+
+metaDataParse();
+
 const sampleData=[
     {
         id:1,
