@@ -20,91 +20,7 @@ const Buyer = (params) => {
         e.preventDefault();
 
         // let web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io");
-        // var ContractAbi = [
-        //     {
-        //         "constant": true,
-        //         "inputs": [
-        //             {
-        //                 "name": "key",
-        //                 "type": "address"
-        //             }
-        //         ],
-        //         "name": "buyerIterate",
-        //         "outputs": [
-        //             {
-        //                 "name": "",
-        //                 "type": "string[]"
-        //             }
-        //         ],
-        //         "payable": false,
-        //         "stateMutability": "view",
-        //         "type": "function"
-        //     },
-        //     {
-        //         "constant": false,
-        //         "inputs": [
-        //             {
-        //                 "name": "key",
-        //                 "type": "address"
-        //             },
-        //             {
-        //                 "name": "value",
-        //                 "type": "string"
-        //             }
-        //         ],
-        //         "name": "buyerSet",
-        //         "outputs": [],
-        //         "payable": false,
-        //         "stateMutability": "nonpayable",
-        //         "type": "function"
-        //     },
-        //     {
-        //         "constant": false,
-        //         "inputs": [
-        //             {
-        //                 "name": "key",
-        //                 "type": "address"
-        //             },
-        //             {
-        //                 "name": "value",
-        //                 "type": "string"
-        //             }
-        //         ],
-        //         "name": "sellerSet",
-        //         "outputs": [],
-        //         "payable": false,
-        //         "stateMutability": "nonpayable",
-        //         "type": "function"
-        //     },
-        //     {
-        //         "constant": false,
-        //         "inputs": [
-        //             {
-        //                 "name": "Path",
-        //                 "type": "string"
-        //             }
-        //         ],
-        //         "name": "buySong",
-        //         "outputs": [],
-        //         "payable": false,
-        //         "stateMutability": "nonpayable",
-        //         "type": "function"
-        //     },
-        //     {
-        //         "constant": true,
-        //         "inputs": [],
-        //         "name": "sellerIterate",
-        //         "outputs": [
-        //             {
-        //                 "name": "",
-        //                 "type": "string[]"
-        //             }
-        //         ],
-        //         "payable": false,
-        //         "stateMutability": "view",
-        //         "type": "function"
-        //     }
-        // ];
+        // var ContractAbi;
         // var ContractAddr = "0x5A6acA09c040D4DCbC8C8C6aEA81591425686bBe";
         // var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
         // console.log(Contract);
@@ -127,13 +43,13 @@ const Buyer = (params) => {
 
 
 
-        const metaDataParse = async () => {
-            const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + "QmSc9Eudi5qJeYdJpNQHgPtzoaRzs7iz5wAjhG2Mjwa4D4";
-            const metadata = await mm.fetchFromUrl(audioTrackUrl);
-            console.log(metadata.common.picture['0'].data);
-        };
+        // const metaDataParse = async () => {
+        //     const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + "QmSc9Eudi5qJeYdJpNQHgPtzoaRzs7iz5wAjhG2Mjwa4D4";
+        //     const metadata = await mm.fetchFromUrl(audioTrackUrl);
+        //     console.log(metadata.common.picture['0'].data);
+        // };
 
-        metaDataParse();
+        // metaDataParse();
 
         // const hash = "QmTL7AM2t49tLryx7ve3JsqBC4eAUvgN2hYBUPdkURu3iT";
         // Contract.methods.buySong(hash).send({ from: account })
@@ -187,7 +103,6 @@ const Buyer = (params) => {
         //     }
         //     else console.log(error);
         // });
-
         // const get = async () => {
         //     for await (const file of ipfs.get(retAdd.cid)) {
 
@@ -202,6 +117,14 @@ const Buyer = (params) => {
         // }
         // add();
     };
+
+    // path = "QmRE3hRG2nZ6wrV19nhMeCNRy35yF9sFvTVYxDkkvhSdAA";
+    // Contract.methods.returnSeller(path).call({ from: account })
+    //     .then(function (result) {
+    //         if (result) {
+    //             console.log(result);
+    //         } else console.log("error");
+    //     })
 
     return (
         <Wrapper>
@@ -218,7 +141,7 @@ const Buyer = (params) => {
                 </SingerText>
                 <ImagesOfService>
                     <ButtonOfBuying type="button" onClick={clickBuyMusic}>Buy</ButtonOfBuying>
-                    <ReturnUrl>{url?window.location.replace(url):"https://localhost:3000"+params.location.pathname}</ReturnUrl>
+                    <ReturnUrl>{url ? window.location.replace(url) : ""}</ReturnUrl>
                 </ImagesOfService>
             </BuyerBox>
         </Wrapper>
