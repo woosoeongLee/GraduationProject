@@ -6,8 +6,9 @@ const Web3 = require('web3');
 
 
 
+
 let web3 = new Web3(Web3.givenProvider || "https://localhost:7545");
-var ContractAddr = "0xf8467c99207d1A62CcB0AA47EC3bB82DD64a2Af0";
+var ContractAddr = "0x333Ce5DDc8Dc21256B1deDaA051665554E8c9004";
 var ContractAbi = [
     {
         "constant": false,
@@ -171,111 +172,78 @@ var ContractAbi = [
 ];
 var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
 
-
-var imgArray=[];
-var singerArray=[];
-var titleArray=[];
-var sellerAddressArray=[];
-
-const metaDataParse = async (path) => {
-    const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
-    const metadata = await mm.fetchFromUrl(audioTrackUrl);
-    // console.log(metadata);
-    // console.log(metadata.common.picture['0'].data); // imageLocation에 대응
-    // console.log(metadata.common.artist);            // singer에 대응
-    // console.log(metadata.common.title);             // song에 대응
-    imgArray.push(metadata.common.picture['0'].data);
-    singerArray.push(metadata.common.artist.toString());
-    titleArray.push(metadata.common.title.toString());
-};
-
-
-Contract.methods.showAllSellerList().call({ from: "0xBF1B911f0708d5B79681f35db0C46A0fd6cD65A9" })
-    .then(function (result) {
-        if (result) {
-            console.log(result);
-            let pathArrSize = result.path[0].length;
-            for (let i = 0; i < pathArrSize; i++) {
-                if (result.path[i]) {
-                    metaDataParse(result.path[i]);
-                    sellerAddressArray.push(result.sellerAddress[i].toString());
-                }
-            }
-        } else console.log("error");
-    });
-
-    const sampleData = [
-        {
-            id: 1,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[0],
-            song: titleArray[0],
-            accountId: sellerAddressArray[0]
-        },
-        {
-            id: 2,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[1],
-            song: titleArray[1],
-            accountId: sellerAddressArray[1]
-        },
-        {
-            id: 3,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[2],
-            song: titleArray[2],
-            accountId: sellerAddressArray[2]
-        },
-        {
-            id: 4,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[3],
-            song: titleArray[3],
-            accountId: sellerAddressArray[3]
-        },
-        {
-            id: 5,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[4],
-            song: titleArray[4],
-            accountId: sellerAddressArray[4]
-        },
-        {
-            id: 6,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[5],
-            song: titleArray[5],
-            accountId: sellerAddressArray[5]
-        },
-        {
-            id: 7,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[6],
-            song: titleArray[6],
-            accountId: sellerAddressArray[6]
-        },
-        {
-            id: 8,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[7],
-            song: titleArray[7],
-            accountId: sellerAddressArray[7]
-        },
-        {
-            id: 9,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[8],
-            song: titleArray[8],
-            accountId: sellerAddressArray[8]
-        },
-        {
-            id: 10,
-            imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
-            singer: singerArray[9],
-            song: titleArray[9],
-            accountId: sellerAddressArray[9]
-        },
-    ];
+// const sampleData = [
+//     {
+//         id: 1,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[0],
+//         song: titleArray[0],
+//         accountId: sellerAddressArray[0]
+//     },
+//     {
+//         id: 2,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[1],
+//         song: titleArray[1],
+//         accountId: sellerAddressArray[1]
+//     },
+//     {
+//         id: 3,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[2],
+//         song: titleArray[2],
+//         accountId: sellerAddressArray[2]
+//     },
+//     {
+//         id: 4,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[3],
+//         song: titleArray[3],
+//         accountId: sellerAddressArray[3]
+//     },
+//     {
+//         id: 5,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[4],
+//         song: titleArray[4],
+//         accountId: sellerAddressArray[4]
+//     },
+//     {
+//         id: 6,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[5],
+//         song: titleArray[5],
+//         accountId: sellerAddressArray[5]
+//     },
+//     {
+//         id: 7,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[6],
+//         song: titleArray[6],
+//         accountId: sellerAddressArray[6]
+//     },
+//     {
+//         id: 8,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[7],
+//         song: titleArray[7],
+//         accountId: sellerAddressArray[7]
+//     },
+//     {
+//         id: 9,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[8],
+//         song: titleArray[8],
+//         accountId: sellerAddressArray[8]
+//     },
+//     {
+//         id: 10,
+//         imageLocation: "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg",
+//         singer: singerArray[9],
+//         song: titleArray[9],
+//         accountId: sellerAddressArray[9]
+//     },
+// ];
 
 
 // const sampleData = [
@@ -360,6 +328,39 @@ const ShowSomeMusics = () => {
             data: data
         });
     }
+
+    var sampleData = [];
+    
+    Contract.methods.showAllSellerList().call({ from: "0x621be3614019D987285ef287EEe317B957443837" })
+    .then(function (result) {
+        if (result) {
+            let pathArrSize = result.path[0].length;
+            for (let i = 0; i < pathArrSize; i++) {
+                if (result.path[i]) {
+                    const metaDataParse = async (path) => {
+                        const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
+                        const metadata = await mm.fetchFromUrl(audioTrackUrl);
+                        
+                        return metadata;
+                    };
+                    metaDataParse(result.path[i]).then((metadata) => {                        
+                        // img를 src말고 metadata에서 버퍼형식으로(?) 사용할 방법 강구해야할듯. 그렇지 않으면 ipfs에 앨범을 따로 저장해야함
+
+                        var element = new Object();
+
+                        element["id"]=i+1;
+                        element["imageLocation"]="https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg";
+                        element["singer"] = metadata.common.artist;
+                        element["song"] = metadata.common.title;
+                        element["accountID"] = result.sellerAddress[i];
+                        
+                        sampleData.push(element);
+                        console.log(element)
+                    });
+                }
+            }
+        } else console.log("error");
+    });
 
     return (
         <Wrapper>
