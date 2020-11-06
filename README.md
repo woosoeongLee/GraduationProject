@@ -21,14 +21,14 @@ aws의 mysql root 계정의 비밀번호는 root
 :8081/api/database 로접속하면 mysql 접속이 된것을 확인할 수있다.
 
 ----------------------------------------------------------------
-<ipfs 음원 10개>
-https://ipfs.infura.io/ipfs/QmSc9Eudi5qJeYdJpNQHgPtzoaRzs7iz5wAjhG2Mjwa4D4
-https://ipfs.infura.io/ipfs/QmfSLSa7G9RqdMTfaH6WULv39pfT8MexhmFxNphcYrPfpL
-https://ipfs.infura.io/ipfs/QmbMSBT62sRFPwBXJ7SugHMsxnszbTkvvQ7dKv7P1QkLQt
-https://ipfs.infura.io/ipfs/QmZ696qBzpfxytv28evQXRgyoYDR57e5G1VTPN8dpfLeN7
-https://ipfs.infura.io/ipfs/QmQD1QmXSvcNHPhZHjSjB6d7cEktmFXEZ1haAMFhRZEEZU
-https://ipfs.infura.io/ipfs/QmTRU1Ga6LjsUNGMtSDVjrmQLMXHee58NQY6WLofpVkBcC
-https://ipfs.infura.io/ipfs/QmRdU6EDaSsFa4cfdovT6i2cVh4gwLtW9pdNA4HxJBKQxQ
-https://ipfs.infura.io/ipfs/QmaBSDFmYRszJ94a8W1YbCi5MZyHcZUGq8PK9751vL8uzW
-https://ipfs.infura.io/ipfs/QmXLHixFUTCYfMShtkwUGqZZPfZqhxaf4SLVX8BqT3qohg
-https://ipfs.infura.io/ipfs/QmZpzvqpDhsaXHbZb7aEUoqXrcFquZUxeiMSHmxcg74jZt
+<ipfs 음원 10개>  
+https://ipfs.infura.io/ipfs/QmRE3hRG2nZ6wrV19nhMeCNRy35yF9sFvTVYxDkkvhSdAA
+https://ipfs.infura.io/ipfs/QmctpakVjfuYH4xkujq5uXV3izh8EGHycHJfYHVXDLv2ic
+https://ipfs.infura.io/ipfs/QmTHkVsATg6KqWgUtmwUDLEudvCrno4jRJfphMMuCBCrjo
+https://ipfs.infura.io/ipfs/QmcEMPmcxYNVbJn5Y9kYTKq5T9kQjgUTyyDq6LrDt8nHeR
+https://ipfs.infura.io/ipfs/QmYQDRk5azSp4KaCMJNsApQPFsyW9K2S3FQHfRxYxHw2VF
+https://ipfs.infura.io/ipfs/QmfYG3bdU8TscwFNuxBgBCYazTSBiCLnK6TUPcaayEZctd
+https://ipfs.infura.io/ipfs/QmQpFbrBugpPyba9smpTJ9y9tVXeUjk4fRNL7ibJUzaji5
+https://ipfs.infura.io/ipfs/QmQ97erLqrBSiZ2TC26pL4U4GdgvHNEnXCeYW8kN4sCTSi
+https://ipfs.infura.io/ipfs/QmdpgrUrJYgyZg277YCfpdJdcN2uh7dnDhZDo5vEZAfDcW
+https://ipfs.infura.io/ipfs/QmP8W7UnzKYmHS86r4Dt1WjdBXu8Y6468MbHwZajB5s4Yt
