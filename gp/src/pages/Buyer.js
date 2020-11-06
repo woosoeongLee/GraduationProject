@@ -4,6 +4,7 @@ const Web3 = require('web3');
 const mm = require('music-metadata-browser');
 
 const Buyer = (params) => {
+    const [url, SetUrl] = useState(null);
     console.log(params);
     // const {data}=this.props.location;
     // console.log(data);
