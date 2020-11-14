@@ -8,49 +8,6 @@ let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
 let ContractAddr = "0xC0aa10BCe7acF8EA7AAac6C82c6bAE915E9E1C3b";
 let ContractAbi = [
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "key",
-				"type": "address"
-			}
-		],
-		"name": "showSellerList",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "showAllBuyerList",
-		"outputs": [
-			{
-				"components": [
-					{
-						"name": "buyerAddress",
-						"type": "address[]"
-					},
-					{
-						"name": "path",
-						"type": "string[]"
-					}
-				],
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -87,6 +44,67 @@ let ContractAbi = [
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"name": "path",
+				"type": "string"
+			}
+		],
+		"name": "songTrade",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "path",
+				"type": "string"
+			}
+		],
+		"name": "returnSeller",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "showAllBuyerList",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "buyerAddress",
+						"type": "address[]"
+					},
+					{
+						"name": "path",
+						"type": "string[]"
+					}
+				],
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [],
 		"name": "showAllSellerList",
@@ -114,25 +132,6 @@ let ContractAbi = [
 		"constant": true,
 		"inputs": [
 			{
-				"name": "path",
-				"type": "string"
-			}
-		],
-		"name": "returnSeller",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
 				"name": "key",
 				"type": "address"
 			}
@@ -149,21 +148,22 @@ let ContractAbi = [
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "recipient",
+				"name": "key",
 				"type": "address"
-			},
-			{
-				"name": "path",
-				"type": "string"
 			}
 		],
-		"name": "songTrade",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"name": "showSellerList",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	}
 ];
@@ -212,19 +212,13 @@ const ShowSomeMusics = () => {
                 });
             } else console.log("error");
 
-    })};
-
-    getIpfsInformations().then((result)=>{console.log(result)});
-    // useEffect(()=>{
-    //     console.log('===useEffect');
-    //     const fetctIpfsInformation=async ()=>{
-    //         const data=await getIpfsInformations();
-    //         // console.log(data);
-            
-    //         return data;
-    //     }
+    }).then(()=>console.log(tempArr))};
+    
+    useEffect(()=>{
+        console.log('===useEffect');
         
-    // },[]);
+        
+    },[]);
 
 	return (
 					
