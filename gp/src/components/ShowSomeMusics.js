@@ -177,16 +177,16 @@ const metaDataParse = async (path) => {
 };
 
 const ShowSomeMusics = () => {
-    let history = useHistory();
+	let history = useHistory();
 
-    const LinkHandle = (idx, data) => {
-        history.push({
-            pathname: "/buyer/" + idx,
-            data: data
-        });
-    }
+	const LinkHandle = (idx, data) => {
+		history.push({
+			pathname: "/buyer/" + idx,
+			data: data
+		});
+	}
 
-    const [ipfsPull,setipfsPull]=useState([]);
+	const [ipfsPull,setipfsPull]=useState([]);
     
     const getIpfsInformations=()=>{
         let tempArr=[];
@@ -225,7 +225,10 @@ const ShowSomeMusics = () => {
     //     }
         
     // },[]);
-    return (
+
+	return (
+					
+    
         <Wrapper>
             <TitleOfComponent>
                 Start Listening
@@ -304,66 +307,3 @@ const MusicInformation = styled.div`
     
 `;
 
-// {
-    // tempArr[0].song
-    // console.log(tempArr)
-    // tempArr.map((data, idx) => {
-    //     return (
-    //         <MusicInformation key={idx}>
-    //             <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
-    //             {/* <Link to={"/buyer/"+idx}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
-
-    //             {/* <AlbumCover src={data.imageLocation} onClick={LinkHandle}></AlbumCover> */}
-    //             {/* <Link to={
-    //                 {
-    //                     pathname:'/buyer/'+idx,
-    //                     state:2
-    //                 }}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
-    //             <Singer>{data.singer}</Singer>
-    //             <Song>{data.song}</Song>
-    //         </MusicInformation>
-    //     );
-    // })
-// }
-
-// const [sampleData,SetSampleData]=useState([]);
-    // const [sampleData,SetSampleData]=useState(null);
-    // let tempArr=[];
-    // Contract.methods.showAllSellerList().call({ from: "0x2f2EBFD8e598d559E7b23d4EddDb01Ff438ebc12" })
-    // .then(function (result) {
-    //     if (result) {
-    //         let pathArrSize = result.path[0].length;
-    //         for (let i = 0; i < pathArrSize; i++) {
-    //             if (result.path[i]) {
-    //                 const metaDataParse = async (path) => {
-    //                     const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
-    //                     const metadata = await mm.fetchFromUrl(audioTrackUrl);
-                        
-    //                     return metadata;
-    //                 };
-    //                 metaDataParse(result.path[i]).then((metadata) => {                        
-    //                     // img를 src말고 metadata에서 버퍼형식으로(?) 사용할 방법 강구해야할듯. 그렇지 않으면 ipfs에 앨범을 따로 저장해야함
-
-    //                     var element = new Object();
-
-    //                     element["id"]=i+1;
-    //                     element["imageLocation"]="https://placeimg.com/640/480/any";
-    //                     element["singer"] = metadata.common.artist;
-    //                     element["song"] = metadata.common.title;
-    //                     element["accountID"] = result.sellerAddress[i];
-                        
-    //                     tempArr.push(element);
-    //                     // let newArr=[...sampleData];
-    //                     // newArr.push(element);
-    //                     // SetSampleData(newArr);
-    //                     // sampleData.push(element);
-    //                     // console.log(element);
-    //                 });
-    //             }
-    //         }
-    //     } else console.log("error");
-    // }).finally(function(){
-    //     // SetSampleData(tempArr);
-    //     // console.log(sampleData);
-    //     // console.log(tempArr);
-    // });

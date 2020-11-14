@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import Link from 'react-router-dom';
-import Discover from '../pages/Discover'
+import Chart from '../pages/Chart'
 const NavBar=()=>{
     const [account, SetAccount] = useState(null);
     const onClickLogin = () => {getAccount();};
     async function getAccount() {const accounts = await window.ethereum.enable();SetAccount(accounts[0]);};
     return(
         <Wrapper>
-            <NavFirstText href="/Discover">
-                Discover
+            <NavFirstText href="/Chart">
+                Chart
             </NavFirstText>
             <NavSecondText href="/">
                 홍익뮤직

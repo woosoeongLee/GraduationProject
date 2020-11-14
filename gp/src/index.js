@@ -5,24 +5,23 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home'
 import Seller from './pages/Seller';
 import Buyer from './pages/Buyer';
-import Discover from './pages/Discover';
+import Chart from './pages/Chart';
 // import './index.css';
 // import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Router>
-    <NavBar/>
+    <NavBar />
     <Switch>
-      <Route exact path="/" component={Home}/>
-      <Route exact path="/Seller" component={Seller}/>
-      <Route exact path="/Discover" component={Discover}/>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/Seller" component={Seller} />
       <Switch>
-        <Route exact path="/Buyer/:sondId" component={Buyer}/>
-        <Route exact path="/Buyer/" component={Buyer}/>
+        <Route exact path="/Buyer/:sondId" component={Buyer} />
+        <Route exact path="/Buyer/" component={Buyer} />
+        <Route exact path="/Chart" component={Chart} />
       </Switch>
     </Switch>
-
   </Router>,
   // <React.StrictMode>
   //   <App />
