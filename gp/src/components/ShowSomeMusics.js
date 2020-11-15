@@ -181,7 +181,7 @@ let ContractAbi = [
 	}
 ];
 var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
-let tempArr=[];
+// let tempArr=[];
 const metaDataParse = async (path) => {
     const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
     const metadata = await mm.fetchFromUrl(audioTrackUrl);
@@ -200,6 +200,7 @@ const ShowSomeMusics = () => {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	var sampleData = [];
 
 	const metaDataParse = async (path) => {
@@ -207,11 +208,13 @@ const ShowSomeMusics = () => {
 		const metadata = await mm.fetchFromUrl(audioTrackUrl);
 =======
 	const [ipfsPull,SetipfsPull]=useState(null);
+=======
+	const [ipfsPull,setipfsPull]=useState(null);
+>>>>>>> 6112f3f24a67c079499b2b06ea766063b672e8c1
     
-    // async function getIpfsInformations(){
-    //     let tempArr=[];
-    //     let path=await Contract.methods.showAllSellerList().call({ from: "0xB901e378b66144a8a6583F16f279D0D8f42c509B" });
-        // console.log(path);
+    
+        
+    //     Contract.methods.showAllSellerList().call({ from: "0xB901e378b66144a8a6583F16f279D0D8f42c509B" })
     //     .then((result)=> {
     //         if (result) {
                     
@@ -246,6 +249,7 @@ const ShowSomeMusics = () => {
         
     // }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	Contract.methods.showAllSellerList().call({ from: "0xb1c504a0BEAa50596153da5688607358E1Bb7BB5" })
 		.then(function (result) {
@@ -283,13 +287,69 @@ const ShowSomeMusics = () => {
       return ret;
    }
 >>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
+=======
+//    const rendering = async () => {
+// 	  var ret = await Contract.methods.showAllSellerList().call({ from: "0x4A5F0e92270ee28Bcce3678BE119A087051694Fe" })
+//          .then(function (result) {
+//             if (result) {
+//                Promise.all(result.path).then((values) => {
+//                   values.map((data, idx) => {
+//                      metaDataParse(data).then((metadata) => {
+//                         const data = {
+//                            id: idx,
+//                            imageLocation: "https://placeimg.com/640/480/any",
+//                            singer: metadata.common.artist,
+//                            song: metadata.common.title,
+//                            accountId: result.sellerAddress[idx]
+//                         }
+//                         tempArr.push(data);
+//                      });
+//                   });
+//                })
+//             } else console.log("error");
+//          }).then(() => {
+//             // console.log(tempArr)
+//             return tempArr;
+//          });
+//       return ret;
+//    }
+>>>>>>> 6112f3f24a67c079499b2b06ea766063b672e8c1
 
-   useEffect(() => {
-      rendering().then((res)=>{
-        //  let newIpfsPull=[...ipfsPull,res];
-         SetipfsPull(res);
-      });
-   }, []);
+//    useEffect(() => {
+//       rendering().then((res)=>{
+//         //  let newIpfsPull=[...ipfsPull,res];
+//          SetipfsPull(res);
+//       });
+//    }, []);
+	
+	useEffect(() => {
+		Contract.methods.showAllSellerList().call({ from: "0xB901e378b66144a8a6583F16f279D0D8f42c509B" })
+		.then((result)=>{
+			let tempArr=[];
+			Promise.all(result.path).then(ipfsHashArray=>{
+				ipfsHashArray.map((ipfsHash,idx)=>{
+					metaDataParse(ipfsHash).then(metaData=>{
+						const data = {
+							id: idx,
+							imageLocation: "https://placeimg.com/640/480/any",
+							singer: metaData.common.artist,
+							song: metaData.common.title,
+							accountId: result.sellerAddress[idx]
+						}
+						// let newArr=[...tempArr,data];
+						// setipfsPull(newArr);
+						// tempArr=newArr;
+						tempArr.push(data);
+					})
+				})
+				return tempArr;
+			}).then(metaData=>{
+				console.log(metaData);
+				setipfsPull(metaData)
+				return ipfsPull
+			}).then(()=>console.log(ipfsPull))
+		})
+	}, []);
 
 	return (
 <<<<<<< HEAD
@@ -349,7 +409,7 @@ const ShowSomeMusics = () => {
                 Start Listening
             </TitleOfComponent>
             <MusicInformations>
-                <Display ipfsPull={ipfsPull}/>
+                {/* <Display ipfsPull={ipfsPull}/> */}
                 {/* {
 
                     
