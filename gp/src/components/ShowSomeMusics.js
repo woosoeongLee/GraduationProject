@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import styled from "styled-components"
-import { BrowserRouter as Router, Route, Switch, Link, useHistory } from "react-router-dom";
-import Display from "./Display"
-import { element } from 'prop-types';
-import cat from 'ipfs-http-client/src/cat';
 import { withStyles } from '@material-ui/core/styles'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import CircularProgress from '@material-ui/core/CircularProgress'
 const Web3 = require('web3');
 const mm = require('music-metadata-browser');
-let web3 = new Web3(Web3.givenProvider || "https://localhost:7545");
-let ContractAddr = "0x0Aea2CcEa4394A2E4216545d74B8C2DA60c0B850";
+
+let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
+let ContractAddr = "0x1026E715C2E5b4D6701200fD1e9Ff745189De48C";
 let ContractAbi = [
 	{
 		"constant": false,
@@ -174,7 +171,7 @@ let ContractAbi = [
 	}
 ];
 var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
-// let tempArr=[];
+
 const metaDataParse = async (path) => {
 	const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
 	const metadata = await mm.fetchFromUrl(audioTrackUrl);
@@ -223,175 +220,11 @@ class ShowSomeMusics extends React.Component {
 	}
 
 	callApi = async () => {
-		let web3 = new Web3(Web3.givenProvider || "https://localhost:7545");
-		var ContractAddr = "0x0Aea2CcEa4394A2E4216545d74B8C2DA60c0B850";
-		var ContractAbi = [
-			{
-				"constant": false,
-				"inputs": [
-					{
-						"name": "key",
-						"type": "address"
-					},
-					{
-						"name": "path",
-						"type": "string"
-					}
-				],
-				"name": "buyerSet",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"constant": false,
-				"inputs": [
-					{
-						"name": "key",
-						"type": "address"
-					},
-					{
-						"name": "path",
-						"type": "string"
-					}
-				],
-				"name": "sellerSet",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"constant": false,
-				"inputs": [
-					{
-						"name": "recipient",
-						"type": "address"
-					},
-					{
-						"name": "path",
-						"type": "string"
-					}
-				],
-				"name": "songTrade",
-				"outputs": [],
-				"payable": true,
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "path",
-						"type": "string"
-					}
-				],
-				"name": "returnSeller",
-				"outputs": [
-					{
-						"name": "",
-						"type": "address"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [],
-				"name": "showAllBuyerList",
-				"outputs": [
-					{
-						"components": [
-							{
-								"name": "buyerAddress",
-								"type": "address[]"
-							},
-							{
-								"name": "path",
-								"type": "string[]"
-							}
-						],
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [],
-				"name": "showAllSellerList",
-				"outputs": [
-					{
-						"components": [
-							{
-								"name": "sellerAddress",
-								"type": "address[]"
-							},
-							{
-								"name": "path",
-								"type": "string[]"
-							}
-						],
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "key",
-						"type": "address"
-					}
-				],
-				"name": "showBuyerList",
-				"outputs": [
-					{
-						"name": "",
-						"type": "string[]"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "key",
-						"type": "address"
-					}
-				],
-				"name": "showSellerList",
-				"outputs": [
-					{
-						"name": "",
-						"type": "string[]"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			}
-		];
-		var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
-
 		console.log(Contract)
 
-		let ret = await Contract.methods.showAllSellerList().call({ from: "0x6c329924357A118Cb25F69512fBB4a347A3DA91B" })
+		let ret = await Contract.methods.showAllSellerList().call({ from: "0xBeFb9dFE0296015E09EC6D9b0E73E55Ff6d10986" })
 			.then(async (result) => {
+				console.log(result)
 				let tempArr = [];
 				let ret = await Promise.all(result.path).then(ipfsHashArray => {
 					ipfsHashArray.map((ipfsHash, idx) => {
@@ -400,12 +233,10 @@ class ShowSomeMusics extends React.Component {
 							const data = {
 								id: idx,
 								imageLocation: imgsrc,
-								// imageLocation: "https://placeimg.com/640/480/any",
 								singer: metaData.common.artist,
 								song: metaData.common.title,
 								accountId: result.sellerAddress[idx]
 							}
-							// console.log(metaData.common.picture[0].data);
 							tempArr.push(data);
 						})
 					})
