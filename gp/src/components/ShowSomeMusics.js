@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styled from "styled-components"
 import { BrowserRouter as Router, Route, Switch, Link, useHistory } from "react-router-dom";
+import Display from "./Display"
 import { element } from 'prop-types';
+<<<<<<< HEAD
 const mm = require('music-metadata-browser');
 const Web3 = require('web3');
 
@@ -10,6 +12,14 @@ const Web3 = require('web3');
 let web3 = new Web3(Web3.givenProvider || "https://localhost:7545");
 var ContractAddr = "0x14E558c491BbdfEF78a743B68ffA8B2722637889";
 var ContractAbi =[
+=======
+import cat from 'ipfs-http-client/src/cat';
+const Web3 = require('web3');
+const mm = require('music-metadata-browser');
+let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
+let ContractAddr = "0x1543843f093715a69a826B3B75b37A12c755b51b";
+let ContractAbi = [
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
 	{
 		"constant": false,
 		"inputs": [
@@ -171,6 +181,13 @@ var ContractAbi =[
 	}
 ];
 var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
+let tempArr=[];
+const metaDataParse = async (path) => {
+    const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
+    const metadata = await mm.fetchFromUrl(audioTrackUrl);
+    
+    return metadata;
+};
 
 const ShowSomeMusics = () => {
 	let history = useHistory();
@@ -182,15 +199,54 @@ const ShowSomeMusics = () => {
 		});
 	}
 
+<<<<<<< HEAD
 	var sampleData = [];
 
 	const metaDataParse = async (path) => {
 		const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
 		const metadata = await mm.fetchFromUrl(audioTrackUrl);
+=======
+	const [ipfsPull,SetipfsPull]=useState(null);
+    
+    // async function getIpfsInformations(){
+    //     let tempArr=[];
+    //     let path=await Contract.methods.showAllSellerList().call({ from: "0xB901e378b66144a8a6583F16f279D0D8f42c509B" });
+        // console.log(path);
+    //     .then((result)=> {
+    //         if (result) {
+                    
+    //                 Promise.all(result.path).then((values)=>{
+                    
+    //                 values.map((data,idx)=>{
+    //                     metaDataParse(data).then((metadata)=>{
+    //                         const data={
+    //                             id:idx,
+    //                             imageLocation:"https://placeimg.com/640/480/any",
+    //                             singer:metadata.common.artist,
+    //                             song:metadata.common.title,
+    //                             accountId:result.sellerAddress[idx]
+    //                         }
+    //                         tempArr.push(data);
+    //                     });
+    //                 })
+                    
+    //             });
+    //         } else console.log("error");
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
 
-		return metadata;
-	};
+    // }).then(()=>{
+    //     console.log(tempArr);
+    //     return tempArr;
+    // })};
+    //     return path;
+    // }
+    
+    // const test=async()=>{
+    //     const data=await getIpfsInformations();
+        
+    // }
 
+<<<<<<< HEAD
 	Contract.methods.showAllSellerList().call({ from: "0xb1c504a0BEAa50596153da5688607358E1Bb7BB5" })
 		.then(function (result) {
 			if (result) {
@@ -200,24 +256,43 @@ const ShowSomeMusics = () => {
 					if (result.path[i]) {
 						metaDataParse(result.path[i]).then((metadata) => {
 							// img를 src말고 metadata에서 버퍼형식으로(?) 사용할 방법 강구해야할듯. 그렇지 않으면 ipfs에 앨범을 따로 저장해야함
+=======
+   const rendering = async () => {
+      var ret = await Contract.methods.showAllSellerList().call({ from: "0x4A5F0e92270ee28Bcce3678BE119A087051694Fe" })
+         .then(function (result) {
+            if (result) {
+               Promise.all(result.path).then((values) => {
+                  values.map((data, idx) => {
+                     metaDataParse(data).then((metadata) => {
+                        const data = {
+                           id: idx,
+                           imageLocation: "https://placeimg.com/640/480/any",
+                           singer: metadata.common.artist,
+                           song: metadata.common.title,
+                           accountId: result.sellerAddress[idx]
+                        }
+                        tempArr.push(data);
+                     });
+                  });
+               })
+            } else console.log("error");
+         }).then(() => {
+            // console.log(tempArr)
+            return tempArr;
+         });
+      return ret;
+   }
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
 
-							var element = new Object();
-							element["id"] = i + 1;
-							element["imageLocation"] = "https://graduationproject.s3.ap-northeast-2.amazonaws.com/test1.jpeg";
-							element["singer"] = metadata.common.artist;
-							element["song"] = metadata.common.title;
-							element["accountID"] = result.sellerAddress[i];
-							sampleData.push(element);
-							
-						}).then(() => {
-							if (sampleData.length == pathArrSize) console.log(sampleData)
-						});
-					}
-				}
-			} else console.log("error");
-		});
+   useEffect(() => {
+      rendering().then((res)=>{
+        //  let newIpfsPull=[...ipfsPull,res];
+         SetipfsPull(res);
+      });
+   }, []);
 
 	return (
+<<<<<<< HEAD
 		<Wrapper>
 			<TitleOfComponent>
 				Start Listening
@@ -266,6 +341,35 @@ const ShowSomeMusics = () => {
 			</MusicInformations>
 		</Wrapper>
 	)
+=======
+					
+    
+        <Wrapper>
+            <TitleOfComponent>
+                Start Listening
+            </TitleOfComponent>
+            <MusicInformations>
+                <Display ipfsPull={ipfsPull}/>
+                {/* {
+
+                    
+                    ipfsPull.map((data,idx)=>{
+                        return(
+                            <div>{data}</div>
+                            <MusicInformation key={idx}>
+                                     <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
+                                     <Singer>{data.singer}</Singer>
+                                     <Song>{data.song}</Song>
+                            </MusicInformation>   
+                        )
+                    })
+                    
+                    
+                } */}
+            </MusicInformations>
+        </Wrapper>
+    )
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
 }
 export default ShowSomeMusics;
 
@@ -317,24 +421,16 @@ const MusicInformation = styled.div`
     
 `;
 
-// {
-    // tempArr[0].song
-    // console.log(tempArr)
-    // tempArr.map((data, idx) => {
-    //     return (
-    //         <MusicInformation key={idx}>
-    //             <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
-    //             {/* <Link to={"/buyer/"+idx}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
 
-    //             {/* <AlbumCover src={data.imageLocation} onClick={LinkHandle}></AlbumCover> */}
-    //             {/* <Link to={
-    //                 {
-    //                     pathname:'/buyer/'+idx,
-    //                     state:2
-    //                 }}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
-    //             <Singer>{data.singer}</Singer>
-    //             <Song>{data.song}</Song>
-    //         </MusicInformation>
-    //     );
-    // })
-// }
+// console.log(ipfsPull["0"])
+                    // ipfsPull["0"].map((data, idx) => {
+                    //     console.log(data);
+                        // return (
+                        //     <MusicInformation key={idx}>
+                        //         <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
+                        //         <Singer>{data.singer}</Singer>
+                        //         <Song>{data.song}</Song>
+                        //     </MusicInformation>
+                        // );
+                    // })
+                    // ipfsPull[0].map((data,idx)=>)

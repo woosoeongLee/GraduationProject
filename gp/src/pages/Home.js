@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components"
-// import Seller from './Seller';
-// import Buyer from './Buyer';
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ShowSomeMusics from '../components/ShowSomeMusics';
+<<<<<<< HEAD
 // import HomeBelow from '../components/HomeBelow';
 const mm = require('music-metadata-browser');
 const Web3 = require('web3');
@@ -291,6 +289,17 @@ const Home = () => {
 				<ExplainWrapper>
 					<HomeExplain>
 						아티스트를 위한 음원플랫폼
+=======
+
+const Home = () => {
+
+    return (
+        <Wrapper>
+            <HomeUpper>
+                <ExplainWrapper>
+                    <HomeExplain>
+                        아티스트를 위한 음원플랫폼
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
                     </HomeExplain>
 					<HomeSubExplain>
 						스마트 계약을 이용한 음원플랫폼
@@ -309,6 +318,7 @@ const Wrapper = styled.div`
     margin: 0 auto;
     text-align: center;
 `
+<<<<<<< HEAD
 // const LoginButton = styled.button`
 
 // `
@@ -316,6 +326,9 @@ const Wrapper = styled.div`
 
 // `
 const ExplainWrapper = styled.div`
+=======
+const ExplainWrapper=styled.div`
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d
     position:relative;
     right:23rem;
     
@@ -342,6 +355,7 @@ const HomeSubExplain = styled.h3`
     left:-3.5rem;
     color:#6E829D;   
 
+<<<<<<< HEAD
 `
 
 // let pathArrSize = result.path[0].length;
@@ -364,3 +378,6 @@ const HomeSubExplain = styled.h3`
                         // element["accountID"] = result.sellerAddress[i];
 
                         // tempArr.push(element);
+=======
+`
+>>>>>>> 73c6fa495f2f756c592ee7d31dd5d5e20b3f035d

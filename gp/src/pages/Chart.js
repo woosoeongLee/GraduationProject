@@ -1,22 +1,5 @@
-// import React, { useState } from 'react';
-// import styled from "styled-components"
-
-// const Chart=()=>{
-//     return(
-//         <Wrapper>
-//             더보기 페이지
-//         </Wrapper>
-//     )
-// };
-
-// export default Chart;
-
-// const Wrapper=styled.div`
-// `;
-
 import React from 'react'
 import ChartRow from '../components/ChartRow'
-// import './App.css'
 
 import Paper from '@material-ui/core/Paper'
 
@@ -74,8 +57,8 @@ class Chart extends React.Component {
   }
 
   callApi = async () => {
-    let web3 = new Web3(Web3.givenProvider || "https://localhost:7545");
-    var ContractAddr = "0x14E558c491BbdfEF78a743B68ffA8B2722637889";
+    let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
+    var ContractAddr = "0xC0aa10BCe7acF8EA7AAac6C82c6bAE915E9E1C3b";
     var ContractAbi = [
       {
         "constant": false,
@@ -240,7 +223,7 @@ class Chart extends React.Component {
     var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
     console.log(Contract)
 
-    var result = await Contract.methods.showAllBuyerList().call({ from: "0xb1c504a0BEAa50596153da5688607358E1Bb7BB5" })
+    var result = await Contract.methods.showAllBuyerList().call({ from: "0xB9E1C7E5DFdA446DAdbAdFFf3A76dAE47429b94e" })
       .then(function (result) {
         if (result) {
           var path = result.path;
