@@ -13,7 +13,7 @@ const Display=(props)=>{
     console.log(ipfsPull);
     return(
         <Wrapper>
-        {/* {
+        {
             ipfsPull.map((data,idx)=>{
             return(
                 
@@ -24,8 +24,8 @@ const Display=(props)=>{
                 </MusicInformation>   
             );
             })
-        } */}
-        hi
+        }
+        
         </Wrapper>
     )
 }
