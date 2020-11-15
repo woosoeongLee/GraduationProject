@@ -1,11 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import styled from "styled-components"
 import { BrowserRouter as Router, Route, Switch, Link, useHistory } from "react-router-dom";
+import Display from "./Display"
 import { element } from 'prop-types';
+import cat from 'ipfs-http-client/src/cat';
 const Web3 = require('web3');
 const mm = require('music-metadata-browser');
 let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
-let ContractAddr = "0xC0aa10BCe7acF8EA7AAac6C82c6bAE915E9E1C3b";
+let ContractAddr = "0x1543843f093715a69a826B3B75b37A12c755b51b";
 let ContractAbi = [
 	{
 		"constant": false,
@@ -168,7 +170,7 @@ let ContractAbi = [
 	}
 ];
 var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
-
+let tempArr=[];
 const metaDataParse = async (path) => {
     const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + path;
     const metadata = await mm.fetchFromUrl(audioTrackUrl);
@@ -186,39 +188,77 @@ const ShowSomeMusics = () => {
 		});
 	}
 
-	const [ipfsPull,setipfsPull]=useState([]);
+	const [ipfsPull,SetipfsPull]=useState(null);
     
-    const getIpfsInformations=()=>{
-        let tempArr=[];
-        Contract.methods.showAllSellerList().call({ from: "0xB901e378b66144a8a6583F16f279D0D8f42c509B" })
-        .then((result)=> {
-            if (result) {
+    // async function getIpfsInformations(){
+    //     let tempArr=[];
+    //     let path=await Contract.methods.showAllSellerList().call({ from: "0xB901e378b66144a8a6583F16f279D0D8f42c509B" });
+        // console.log(path);
+    //     .then((result)=> {
+    //         if (result) {
                     
-                    Promise.all(result.path).then((values)=>{
+    //                 Promise.all(result.path).then((values)=>{
                     
-                    values.map((data,idx)=>{
-                        metaDataParse(data).then((metadata)=>{
-                            const data={
-                                id:idx,
-                                imageLocation:"https://placeimg.com/640/480/any",
-                                singer:metadata.common.artist,
-                                song:metadata.common.title,
-                                accountId:result.sellerAddress[idx]
-                            }
-                            tempArr.push(data);
-                        });
-                    })
+    //                 values.map((data,idx)=>{
+    //                     metaDataParse(data).then((metadata)=>{
+    //                         const data={
+    //                             id:idx,
+    //                             imageLocation:"https://placeimg.com/640/480/any",
+    //                             singer:metadata.common.artist,
+    //                             song:metadata.common.title,
+    //                             accountId:result.sellerAddress[idx]
+    //                         }
+    //                         tempArr.push(data);
+    //                     });
+    //                 })
                     
-                });
-            } else console.log("error");
+    //             });
+    //         } else console.log("error");
 
-    }).then(()=>console.log(tempArr))};
+    // }).then(()=>{
+    //     console.log(tempArr);
+    //     return tempArr;
+    // })};
+    //     return path;
+    // }
     
-    useEffect(()=>{
-        console.log('===useEffect');
+    // const test=async()=>{
+    //     const data=await getIpfsInformations();
         
-        
-    },[]);
+    // }
+
+   const rendering = async () => {
+      var ret = await Contract.methods.showAllSellerList().call({ from: "0x4A5F0e92270ee28Bcce3678BE119A087051694Fe" })
+         .then(function (result) {
+            if (result) {
+               Promise.all(result.path).then((values) => {
+                  values.map((data, idx) => {
+                     metaDataParse(data).then((metadata) => {
+                        const data = {
+                           id: idx,
+                           imageLocation: "https://placeimg.com/640/480/any",
+                           singer: metadata.common.artist,
+                           song: metadata.common.title,
+                           accountId: result.sellerAddress[idx]
+                        }
+                        tempArr.push(data);
+                     });
+                  });
+               })
+            } else console.log("error");
+         }).then(() => {
+            // console.log(tempArr)
+            return tempArr;
+         });
+      return ret;
+   }
+
+   useEffect(() => {
+      rendering().then((res)=>{
+        //  let newIpfsPull=[...ipfsPull,res];
+         SetipfsPull(res);
+      });
+   }, []);
 
 	return (
 					
@@ -228,25 +268,23 @@ const ShowSomeMusics = () => {
                 Start Listening
             </TitleOfComponent>
             <MusicInformations>
-                {
-                    ipfsPull.map((data, idx) => {
-                        return (
-                            <MusicInformation key={idx}>
-                                <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
-                                {/* <Link to={"/buyer/"+idx}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
+                <Display ipfsPull={ipfsPull}/>
+                {/* {
 
-                                {/* <AlbumCover src={data.imageLocation} onClick={LinkHandle}></AlbumCover> */}
-                                {/* <Link to={
-                                    {
-                                        pathname:'/buyer/'+idx,
-                                        state:2
-                                    }}><AlbumCover src={data.imageLocation}></AlbumCover></Link> */}
-                                <Singer>{data.singer}</Singer>
-                                <Song>{data.song}</Song>
-                            </MusicInformation>
-                        );
+                    
+                    ipfsPull.map((data,idx)=>{
+                        return(
+                            <div>{data}</div>
+                            <MusicInformation key={idx}>
+                                     <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
+                                     <Singer>{data.singer}</Singer>
+                                     <Song>{data.song}</Song>
+                            </MusicInformation>   
+                        )
                     })
-                }
+                    
+                    
+                } */}
             </MusicInformations>
         </Wrapper>
     )
@@ -301,3 +339,16 @@ const MusicInformation = styled.div`
     
 `;
 
+
+// console.log(ipfsPull["0"])
+                    // ipfsPull["0"].map((data, idx) => {
+                    //     console.log(data);
+                        // return (
+                        //     <MusicInformation key={idx}>
+                        //         <AlbumCover src={data.imageLocation} onClick={() => LinkHandle(idx, data)}></AlbumCover>
+                        //         <Singer>{data.singer}</Singer>
+                        //         <Song>{data.song}</Song>
+                        //     </MusicInformation>
+                        // );
+                    // })
+                    // ipfsPull[0].map((data,idx)=>)
