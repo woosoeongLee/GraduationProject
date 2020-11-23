@@ -3,7 +3,6 @@ import styled from "styled-components"
 import ShowSomeMusics from '../components/ShowSomeMusics';
 
 const Home = () => {
-
     return (
         <Wrapper>
             <HomeUpper>

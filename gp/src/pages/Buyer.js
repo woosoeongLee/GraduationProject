@@ -3,128 +3,204 @@ import styled from "styled-components"
 const Web3 = require('web3');
 const mm = require('music-metadata-browser');
 
+let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
+let ContractAddr = "0x1026E715C2E5b4D6701200fD1e9Ff745189De48C";
+let ContractAbi = [
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "key",
+                "type": "address"
+            },
+            {
+                "name": "path",
+                "type": "string"
+            }
+        ],
+        "name": "buyerSet",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "key",
+                "type": "address"
+            },
+            {
+                "name": "path",
+                "type": "string"
+            }
+        ],
+        "name": "sellerSet",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "recipient",
+                "type": "address"
+            },
+            {
+                "name": "path",
+                "type": "string"
+            }
+        ],
+        "name": "songTrade",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "path",
+                "type": "string"
+            }
+        ],
+        "name": "returnSeller",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "showAllBuyerList",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "name": "buyerAddress",
+                        "type": "address[]"
+                    },
+                    {
+                        "name": "path",
+                        "type": "string[]"
+                    }
+                ],
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "showAllSellerList",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "name": "sellerAddress",
+                        "type": "address[]"
+                    },
+                    {
+                        "name": "path",
+                        "type": "string[]"
+                    }
+                ],
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "key",
+                "type": "address"
+            }
+        ],
+        "name": "showBuyerList",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "key",
+                "type": "address"
+            }
+        ],
+        "name": "showSellerList",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    }
+];
+var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
 const Buyer = (params) => {
     const [url, SetUrl] = useState(null);
-    console.log(params);
     // const {data}=this.props.location;
     // console.log(data);
     const clickBuyMusic = (e) => {
-
         var account;
+
         const onClickLogin = (tmp) => { account = tmp; };
-        async function getAccount() {
+
+        async function func() {
             const accounts = await window.ethereum.enable();
             onClickLogin(accounts[0]);
+            return accounts[0]
         };
-        getAccount();
+
+        func().then((userAccount) => {
+            console.log(userAccount)
+            Contract.methods.songTrade(params.location.data.accountId, params.location.data.hash).send({
+                from: userAccount,
+                to: ContractAddr,
+                value: "1000000000000000000"     //0.5eth
+            }).then(function (receipt) {
+                    if (receipt) {
+                        console.log(receipt)
+                        SetUrl("https://ipfs.infura.io/ipfs/" + params.location.data.hash);
+                        console.log(url)
+                    } else {
+                        console.log("error");
+                    }
+                })
+        });
+        
         e.preventDefault();
-
-        // let web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io");
-        // var ContractAbi;
-        // var ContractAddr = "0x5A6acA09c040D4DCbC8C8C6aEA81591425686bBe";
-        // var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
-        // console.log(Contract);
-
-        // Contract.methods.sellerIterate().call({ from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418" })
-        //     .then(function (err, res) {
-        //         if (!err) {
-        //             ;
-        //             const metaDataParse = async (hash) => {
-        //                 const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + hash;
-        //                 const metadata = await mm.fetchFromUrl(audioTrackUrl);
-        //                 console.log(metadata);
-        //             };
-        //             for (let i = 0; i < res.length; i++) {
-        //                 metaDataParse(res[i]);
-        //             }
-        //         }
-        //         else console.log(err);
-        //     });
-
-
-
-        // const metaDataParse = async () => {
-        //     const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + "QmSc9Eudi5qJeYdJpNQHgPtzoaRzs7iz5wAjhG2Mjwa4D4";
-        //     const metadata = await mm.fetchFromUrl(audioTrackUrl);
-        //     console.log(metadata.common.picture['0'].data);
-        // };
-
-        // metaDataParse();
-
-        // const hash = "QmTL7AM2t49tLryx7ve3JsqBC4eAUvgN2hYBUPdkURu3iT";
-        // Contract.methods.buySong(hash).send({ from: account })
-        //     .then(function (err, res) {
-        //         if (!err) {
-        //             console.log(res);
-        // Contract.methods.sellerIterate().call({ from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418" })
-        //     .then(function (err, res) {
-        //         if (!err) {
-        //             console.log(res);
-        //         }
-        //         else console.log(err);
-        //     });
-        //     }
-        //     else console.log(err);
-
-        // });
-
-        // Contract.events.example((error, event) => {
-        //     if (!error) {
-        //         let ipfsLink = "https://ipfs.infura.io/ipfs/" +  event.returnValues['path'];
-        //         console.log(ipfsLink);
-        //     }
-        // });
-
-        // using the callback
-        // let web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io");
-        // web3.eth.sendTransaction({
-        //     from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418",
-        //     to: "0x32FCb1727713a60363ca49faD58e6b1bA01e46a4",
-        //     value: "500000000000000000"     //0.5eth
-        // }, function (error, hash) {
-        //     if (!error) {
-        //         console.log(hash);
-        //         const sellerAccountPath = "QmSc9Eudi5qJeYdJpNQHgPtzoaRzs7iz5wAjhG2Mjwa4D4";
-        //         Contract.methods.buySong(sellerAccountPath).send({ from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418" })
-        //             .then(function (receipt) {
-        //                 if (receipt) {
-        //                     Contract.methods.buyerIterate("0x8c5644974804008263Aa79aaad4b4EbCc6170418").call({ from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418" })
-        //                         .then(function (result) {
-        //                             if (result) {
-        //                                 console.log("success")
-        //                                 SetUrl("https://ipfs.infura.io/ipfs/" + result[0]);
-        //                                 console.log(url)
-        //                             } else console.log("fail")
-        //                         })
-        //                 } else {
-        //                     console.log("error");
-        //                 }
-        //             })
-        //     }
-        //     else console.log(error);
-        // });
-        // const get = async () => {
-        //     for await (const file of ipfs.get(retAdd.cid)) {
-
-        //         const content = new BufferList();
-        //         for await (const chunk of file.content) {
-        //             content.append(chunk)
-        //         }
-        //         console.log(content);
-        //     }
-        // }
-        // get();
-        // }
-        // add();
     };
-
-    // path = "QmRE3hRG2nZ6wrV19nhMeCNRy35yF9sFvTVYxDkkvhSdAA";
-    // Contract.methods.returnSeller(path).call({ from: account })
-    //     .then(function (result) {
-    //         if (result) {
-    //             console.log(result);
-    //         } else console.log("error");
-    //     })
 
     return (
         <Wrapper>
@@ -141,12 +217,14 @@ const Buyer = (params) => {
                 </SingerText>
                 <ImagesOfService>
                     <ButtonOfBuying type="button" onClick={clickBuyMusic}>Buy</ButtonOfBuying>
-                    <ReturnUrl>{url ? window.location.replace(url) : ""}</ReturnUrl>
+                    <ReturnUrl>{url ? console.log("success") : console.log("error")}</ReturnUrl>
+                    {/* <ReturnUrl>{url ? window.location.replace(url) : ""}</ReturnUrl> */}
                 </ImagesOfService>
             </BuyerBox>
         </Wrapper>
     )
 }
+
 
 export default Buyer;
 
@@ -214,3 +292,70 @@ const ButtonOfBuying = styled.button`
     border-radius:10px;
 
 `
+
+// Contract.methods.sellerIterate().call({ from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418" })
+        //     .then(function (err, res) {
+        //         if (!err) {
+        //             ;
+        //             const metaDataParse = async (hash) => {
+        //                 const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + hash;
+        //                 const metadata = await mm.fetchFromUrl(audioTrackUrl);
+        //                 console.log(metadata);
+        //             };
+        //             for (let i = 0; i < res.length; i++) {
+        //                 metaDataParse(res[i]);
+        //             }
+        //         }
+        //         else console.log(err);
+        //     });
+
+
+
+        // const metaDataParse = async () => {
+        //     const audioTrackUrl = "https://ipfs.infura.io/ipfs/" + "QmSc9Eudi5qJeYdJpNQHgPtzoaRzs7iz5wAjhG2Mjwa4D4";
+        //     const metadata = await mm.fetchFromUrl(audioTrackUrl);
+        //     console.log(metadata.common.picture['0'].data);
+        // };
+
+        // metaDataParse();
+
+        // const hash = "QmTL7AM2t49tLryx7ve3JsqBC4eAUvgN2hYBUPdkURu3iT";
+        // Contract.methods.buySong(hash).send({ from: account })
+        //     .then(function (err, res) {
+        //         if (!err) {
+        //             console.log(res);
+        // Contract.methods.sellerIterate().call({ from: "0x8c5644974804008263Aa79aaad4b4EbCc6170418" })
+        //     .then(function (err, res) {
+        //         if (!err) {
+        //             console.log(res);
+        //         }
+        //         else console.log(err);
+        //     });
+        //     }
+        //     else console.log(err);
+
+        // });
+
+        // Contract.events.example((error, event) => {
+        //     if (!error) {
+        //         let ipfsLink = "https://ipfs.infura.io/ipfs/" +  event.returnValues['path'];
+        //         console.log(ipfsLink);
+        //     }
+        // });
+
+        // using the callback
+        // let web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io");
+
+                // const get = async () => {
+        //     for await (const file of ipfs.get(retAdd.cid)) {
+
+        //         const content = new BufferList();
+        //         for await (const chunk of file.content) {
+        //             content.append(chunk)
+        //         }
+        //         console.log(content);
+        //     }
+        // }
+        // get();
+        // }
+        // add();

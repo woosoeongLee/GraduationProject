@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/NavBar';
 import Home from './pages/Home'
-import Seller from './pages/Seller';
 import Buyer from './pages/Buyer';
 import Chart from './pages/Chart';
 // import './index.css';
@@ -15,7 +14,6 @@ ReactDOM.render(
     <NavBar />
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/Seller" component={Seller} />
       <Switch>
         <Route exact path="/Buyer/:sondId" component={Buyer} />
         <Route exact path="/Buyer/" component={Buyer} />

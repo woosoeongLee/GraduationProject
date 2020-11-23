@@ -1,18 +1,13 @@
 import React from 'react'
 import ChartRow from '../components/ChartRow'
-
 import Paper from '@material-ui/core/Paper'
-
 import Table from '@material-ui/core/Table'
 import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
-
 import { withStyles } from '@material-ui/core/styles'
-
 import CircularProgress from '@material-ui/core/CircularProgress'
-
 const Web3 = require('web3');
 const mm = require('music-metadata-browser');
 
@@ -27,8 +22,17 @@ const styles = theme => ({
   },
   progress: {
     margin: theme.spacing(3)
+  },
+  image: {
+    height: 64,
+    width: 48
   }
 })
+
+const getAccount = async () => {
+  const accounts = await window.ethereum.enable();
+  return accounts[0]
+};
 
 class Chart extends React.Component {
   constructor(props) {
@@ -58,7 +62,7 @@ class Chart extends React.Component {
 
   callApi = async () => {
     let web3 = new Web3(Web3.givenProvider || "https://localhost:8545");
-    var ContractAddr = "0xC0aa10BCe7acF8EA7AAac6C82c6bAE915E9E1C3b";
+    var ContractAddr = "0x1026E715C2E5b4D6701200fD1e9Ff745189De48C";
     var ContractAbi = [
       {
         "constant": false,
@@ -222,8 +226,8 @@ class Chart extends React.Component {
     ];
     var Contract = new web3.eth.Contract(ContractAbi, ContractAddr);
     console.log(Contract)
-
-    var result = await Contract.methods.showAllBuyerList().call({ from: "0xB9E1C7E5DFdA446DAdbAdFFf3A76dAE47429b94e" })
+    var userAccount = await getAccount();
+    var result = await Contract.methods.showAllBuyerList().call({ from: userAccount })
       .then(function (result) {
         if (result) {
           var path = result.path;
@@ -267,7 +271,6 @@ class Chart extends React.Component {
         }
         else console.log("error");
       });
-
     console.log(result);
 
     const metaDataParse = async (path) => {
@@ -287,11 +290,10 @@ class Chart extends React.Component {
       var metaDataListSize = metaDataList.length;
       for (let i = 0; i < metaDataListSize; i++) {
         var metadata = metaDataList[i];
-
+        var imgsrc = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(metadata.common.picture[0].data), function (p, c) { return p + String.fromCharCode(c) }, ''))
         var element = new Object();
         element["id"] = i + 1;
-        // element["image"]=metadata.common.picture["0"].data;
-        element["image"] = "https://placeimg.com/64/64/any";
+        element["image"] = imgsrc;
         element["singer"] = metadata.common.artist;
         element["song"] = metadata.common.title;
 
@@ -331,7 +333,7 @@ class Chart extends React.Component {
             </TableHead>
             <TableBody>
               {this.state.chartList ?
-                this.state.chartList.map(c => { return (<ChartRow key={c.id} id={c.id} image={c.image} singer={c.singer} song={c.song} />) })
+                this.state.chartList.map(c => { return (<ChartRow className={classes.image} key={c.id} id={c.id} image={c.image} singer={c.singer} song={c.song} />) })
                 :
                 <TableRow>
                   <TableCell colSpan="6" align="center">
@@ -348,4 +350,3 @@ class Chart extends React.Component {
 }
 
 export default withStyles(styles)(Chart);
-// export default Chart;

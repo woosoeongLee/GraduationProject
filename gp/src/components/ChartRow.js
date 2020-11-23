@@ -7,7 +7,7 @@ class ChartRow extends React.Component {
         return (
             <TableRow>
                 <TableCell>{this.props.id}</TableCell>
-                <TableCell><img src={this.props.image} alt="profile"></img></TableCell>
+                <TableCell><img src={this.props.image} alt="profile" width="70px" height="70px"></img></TableCell>
                 <TableCell>{this.props.singer}</TableCell>
                 <TableCell>{this.props.song}</TableCell>
             </TableRow>
